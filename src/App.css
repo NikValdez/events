@@ -1,0 +1,44 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+/* set overlay in front */
+.ReactModal__Overlay {
+	z-index: 1000;
+}
+
+body {
+	font-family: Montserrat;
+}
+
+input[type="text"] {
+	display: inline-block;
+	/* width: 500px; */
+	height: 40px;
+	box-sizing: border-box;
+	outline: none;
+	border: 1px solid lightgray;
+	border-radius: 3px;
+	padding: 10px 10px 10px 100px;
+	transition: all 0.1s ease-out;
+	margin-bottom: 10px;
+	font-family: Montserrat;
+}
+.add-event-title {
+	color: white;
+	text-align: center;
+}
+
+.event-fields {
+	text-align: center;
+}
+
+.modal-button {
+	background: white;
+	color: #446df6;
+	border-radius: 6px;
+	border: none;
+	font-size: 14px;
+	font-weight: bold;
+	padding: 15px 30px;
+	text-decoration: none;
+	font-family: Montserrat;
+	margin-top: 20px;
+}
