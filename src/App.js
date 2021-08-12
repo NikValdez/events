@@ -1,12 +1,16 @@
 import "./App.css"
 import AddEvent from "./components/AddEvent"
 import EventCalendar from "./components/EventCalendar"
+import Footer from "./components/Footer"
+import Navbar from "./components/Navbar"
 
 function App() {
 	return (
-		<div className="App">
+		<div>
+			<Navbar />
 			<AddEvent />
 			<EventCalendar />
+			<Footer />
 		</div>
 	)
 }

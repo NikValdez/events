@@ -1,3 +1,4 @@
+import { addMinutes } from "date-fns"
 import format from "date-fns/format"
 import getDay from "date-fns/getDay"
 import parse from "date-fns/parse"
@@ -19,26 +20,8 @@ const localizer = dateFnsLocalizer({
 	locales
 })
 
-const events = [
-	{
-		title: "Big Meeting",
-		start: new Date(2021, 6, 0),
-		end: new Date(2021, 6, 0)
-	},
-	{
-		title: "Vacation",
-		start: new Date(2021, 6, 7),
-		end: new Date(2021, 6, 10)
-	},
-	{
-		title: "Conference",
-		start: new Date(2021, 6, 20),
-		end: new Date(2021, 6, 23)
-	}
-]
-
 function EventCalendar() {
-	const [ allEvents, setAllEvents ] = useState(events)
+	const [ allEvents, setAllEvents ] = useState([])
 
 	useEffect(() => {
 		getEvents()
@@ -49,7 +32,6 @@ function EventCalendar() {
 		response.on("value", function(snapshot) {
 			let events = snapshot.val()
 			setAllEvents(Object.values(events))
-			// setAllEvents([ events ])
 		})
 	}
 	// console.log(allEvents)
@@ -60,8 +42,15 @@ function EventCalendar() {
 				localizer={localizer}
 				events={allEvents}
 				startAccessor="start"
-				endAccessor="end"
+				endAccessor={(event) => {
+					return addMinutes(new Date(event.end), 1)
+				}}
 				style={{ height: 500, margin: "50px", zIndex: 1 }}
+				eventPropGetter={(events) => ({
+					style: {
+						backgroundColor: "#446df6"
+					}
+				})}
 			/>
 		</div>
 	)
