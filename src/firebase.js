@@ -12,6 +12,6 @@ var firebaseConfig = {
 }
 
 firebase.initializeApp(firebaseConfig)
-const databaseRef = firebase.database().ref()
+export const databaseRef = firebase.database().ref()
 export const eventsRef = databaseRef.child("events")
 export default firebase

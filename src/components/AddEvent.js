@@ -17,14 +17,16 @@ function AddEvent() {
 
 	useEffect(() => {
 		const response = eventsRef
-		response.on("value", function(snapshot) {
-			let events = snapshot.val()
-			let onlyEvents = Object.values(events)
-			let dayInterval = onlyEvents
-				.map((e) => eachDayOfInterval({ start: new Date(e.start), end: new Date(e.end) }))
-				.flat()
-			setTakenDays(dayInterval)
-		})
+		if (response) {
+			response.on("value", function(snapshot) {
+				let events = snapshot.val()
+				let onlyEvents = Object.values(events)
+				let dayInterval = onlyEvents
+					.map((e) => eachDayOfInterval({ start: new Date(e.start), end: new Date(e.end) }))
+					.flat()
+				setTakenDays(dayInterval)
+			})
+		}
 	}, [])
 
 	function openModal() {

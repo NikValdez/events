@@ -8,6 +8,7 @@ import { Calendar, dateFnsLocalizer } from "react-big-calendar"
 import "react-big-calendar/lib/css/react-big-calendar.css"
 import "react-datepicker/dist/react-datepicker.css"
 import { eventsRef } from "../firebase"
+import SingleEvent from "./SingleEvent"
 
 const locales = {
 	"en-US": require("date-fns/locale/en-US")
@@ -22,6 +23,8 @@ const localizer = dateFnsLocalizer({
 
 function EventCalendar() {
 	const [ allEvents, setAllEvents ] = useState([])
+	const [ eventModal, setEventModal ] = useState(false)
+	const [ eventData, setEventData ] = useState([])
 
 	useEffect(() => {
 		getEvents()
@@ -36,12 +39,25 @@ function EventCalendar() {
 	}
 	// console.log(allEvents)
 
+	function handleShow() {
+		setEventModal(true)
+	}
+
+	function closeModal() {
+		setEventModal(false)
+	}
+
 	return (
 		<div>
 			<Calendar
 				localizer={localizer}
 				events={allEvents}
 				startAccessor="start"
+				popup
+				onSelectEvent={(event) => {
+					handleShow()
+					setEventData(event)
+				}}
 				endAccessor={(event) => {
 					return addMinutes(new Date(event.end), 1)
 				}}
@@ -52,6 +68,7 @@ function EventCalendar() {
 					}
 				})}
 			/>
+			<SingleEvent eventModal={eventModal} closeModal={closeModal} eventData={eventData} />
 		</div>
 	)
 }

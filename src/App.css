@@ -95,3 +95,17 @@ p {
 	text-decoration: none;
 	font-family: Montserrat;
 }
+
+.event-data {
+	color: white;
+}
+
+.event-title {
+	margin-top: 20px;
+	margin-bottom: 30px;
+	margin-left: 10px;
+}
+
+/* .event-date {
+	margin-bottom: 30px;
+} */
