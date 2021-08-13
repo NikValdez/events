@@ -40,14 +40,25 @@ function SingleEvent({ eventModal, closeModal, eventData }) {
 		closeModal()
 	}
 	
-	function handleDelete() {
-		console.log(eventsRef)
-		
-		// let response = eventsRef
-		if(window.confirm("Are you sure you want to delete this event?")) {
-			eventsRef.child("-MgwnvLZw4_QvWrFM7kX").remove()
+	function handleDelete(start) {
+		const response = eventsRef
+		response.on("value", function(snapshot) {
+			let events = snapshot.val()
+			const asArray = Object.entries(events);
+			const arrayItems = asArray.filter((e) => {
+				if(e[1].start === start) {
+					if(window.confirm("Are you sure you want to delete this event?")) {
+						eventsRef.child(e[0]).remove()
+					}
+				
+				}
+			})
 
-		}
+			console.log(arrayItems)
+
+		
+		})
+		modalClose()
 	}
 
 	return (
@@ -65,7 +76,7 @@ function SingleEvent({ eventModal, closeModal, eventData }) {
 					</>
 					): null}
 				</div>
-				<button className="modal-button" onClick={handleDelete}>
+				<button className="modal-button" onClick={() => handleDelete(eventData.start)}>
 					Delete Event
 				</button>
 			</Modal>
