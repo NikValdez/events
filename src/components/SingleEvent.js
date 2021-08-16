@@ -4,6 +4,7 @@ import "react-datepicker/dist/react-datepicker.css"
 import Modal from "react-modal"
 import { eventsRef } from "../firebase"
 import { customStyles } from "../styles/modalStyles"
+import UpdateEvent from "./UpdateEvent"
 
 Modal.setAppElement("#root")
 
@@ -79,6 +80,7 @@ function SingleEvent({ eventModal, closeModal, eventData }) {
 				<button className="modal-button" onClick={() => handleDelete(eventData.start)}>
 					Delete Event
 				</button>
+				<UpdateEvent eventStart={eventData.start} eventEnd={eventData.end} eventTitle={eventData.title}/>
 			</Modal>
 		</div>
 	)

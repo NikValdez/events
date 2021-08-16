@@ -12,7 +12,7 @@ Modal.setAppElement("#root")
 
 function AddEvent() {
 	const [ newEvent, setNewEvent ] = useState({ title: "", start: "", end: "" })
-	const [ takenDays, setTakenDays ] = useState()
+	const [ takenDays, setTakenDays ] = useState(null)
 	const [ modalIsOpen, setIsOpen ] = useState(false)
 
 	useEffect(() => {
