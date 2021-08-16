@@ -1,4 +1,4 @@
-import { eachDayOfInterval } from "date-fns/esm"
+import eachDayOfInterval from 'date-fns/eachDayOfInterval'
 import React, { useEffect, useState } from "react"
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
@@ -9,7 +9,7 @@ import { customStyles } from "../styles/modalStyles"
 
 
 
-Modal.setAppElement("#root")
+// Modal.setAppElement("#root")
 
 function UpdateEvent({ eventStart, eventEnd, eventTitle, modalClose}) {
 	const [ modalIsOpen, setIsOpen ] = useState(false)
@@ -103,7 +103,7 @@ function UpdateEvent({ eventStart, eventEnd, eventTitle, modalClose}) {
 					Update Event
 				</button>
 
-			<Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles} contentLabel="Events Modal">
+			<Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles} contentLabel="Events Modal" ariaHideApp={false}>
 				<h2 className="add-event-title">Update Event</h2>
 				<div className="event-data">
 					{eventStart ? (

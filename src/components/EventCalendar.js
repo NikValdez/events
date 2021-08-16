@@ -37,7 +37,6 @@ function EventCalendar() {
 			setAllEvents(Object.values(events))
 		})
 	}
-	// console.log(allEvents)
 
 	function handleShow() {
 		setEventModal(true)
@@ -50,6 +49,7 @@ function EventCalendar() {
 	return (
 		<div>
 			<Calendar
+				data-testid="event-calendar"
 				localizer={localizer}
 				events={allEvents}
 				startAccessor="start"

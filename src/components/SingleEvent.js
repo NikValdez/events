@@ -6,7 +6,7 @@ import { eventsRef } from "../firebase"
 import { customStyles } from "../styles/modalStyles"
 import UpdateEvent from "./UpdateEvent"
 
-Modal.setAppElement("#root")
+// Modal.setAppElement("#root")
 
 function SingleEvent({ eventModal, closeModal, eventData }) {
 	const [ modalIsOpen, setIsOpen ] = useState(false)
@@ -20,17 +20,6 @@ function SingleEvent({ eventModal, closeModal, eventData }) {
 		[ eventModal ]
 	)
 
-	// useEffect(() => {
-	// 	const response = eventsRef
-	// 	response.on("value", function(snapshot) {
-	// 		let events = snapshot.val()
-	// 		let onlyEvents = Object.values(events)
-	// 		let dayInterval = onlyEvents
-	// 			.map((e) => eachDayOfInterval({ start: new Date(e.start), end: new Date(e.end) }))
-	// 			.flat()
-	// 		setTakenDays(dayInterval)
-	// 	})
-	// }, [])
 
 	function openModal() {
 		setIsOpen(true)
@@ -55,7 +44,6 @@ function SingleEvent({ eventModal, closeModal, eventData }) {
 				}
 			})
 
-			console.log(arrayItems)
 
 		
 		})
@@ -64,7 +52,7 @@ function SingleEvent({ eventModal, closeModal, eventData }) {
 
 	return (
 		<div>
-			<Modal isOpen={modalIsOpen} onRequestClose={modalClose} style={customStyles} contentLabel="Events Modal">
+			<Modal isOpen={modalIsOpen} onRequestClose={modalClose} style={customStyles} contentLabel="Events Modal" ariaHideApp={false}>
 				<h2 className="add-event-title">Event</h2>
 				<div className="event-data">
 					{eventData.start ? (

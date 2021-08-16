@@ -1,14 +1,12 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { eachDayOfInterval } from "date-fns/esm"
+import eachDayOfInterval from "date-fns/eachDayOfInterval"
 import React, { useEffect, useState } from "react"
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import Modal from "react-modal"
 import { eventsRef } from "../firebase"
 import { customStyles } from "../styles/modalStyles"
-
-Modal.setAppElement("#root")
 
 function AddEvent() {
 	const [ newEvent, setNewEvent ] = useState({ title: "", start: "", end: "" })
@@ -49,6 +47,7 @@ function AddEvent() {
 
 	function closeModal() {
 		setIsOpen(false)
+		setNewEvent({ title: "", start: "", end: "" })
 	}
 	function handleAddEvent() {
 		const event = {
@@ -80,10 +79,16 @@ function AddEvent() {
 
 	return (
 		<div>
-			<button onClick={openModal} className="add-event-button">
+			<button onClick={openModal} className="add-event-button" data-testid="modal-button">
 				Add Event <FontAwesomeIcon icon={faPlus} />
 			</button>
-			<Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles} contentLabel="Events Modal">
+			<Modal
+				isOpen={modalIsOpen}
+				onRequestClose={closeModal}
+				style={customStyles}
+				contentLabel="Events Modal"
+				ariaHideApp={false}
+			>
 				<h2 className="add-event-title">Add Event</h2>
 				<div className="event-fields">
 					<input
@@ -107,7 +112,12 @@ function AddEvent() {
 						excludeDates={takenDays}
 						maxDate={maxDate}
 					/>
-					<button className="modal-button" onClick={handleAddEvent} disabled={verifyDates()}>
+					<button
+						className="modal-button"
+						onClick={handleAddEvent}
+						disabled={verifyDates()}
+						data-testid="submit-button"
+					>
 						Add Event
 					</button>
 				</div>
