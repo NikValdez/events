@@ -53,6 +53,7 @@ function EventCalendar() {
 				localizer={localizer}
 				events={allEvents}
 				startAccessor="start"
+				views={[ "month", "agenda" ]}
 				popup
 				onSelectEvent={(event) => {
 					handleShow()
