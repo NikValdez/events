@@ -77,10 +77,12 @@ function SingleEvent({ eventModal, closeModal, eventData }) {
 					</>
 					): null}
 				</div>
-				<button className="modal-button" onClick={() => handleDelete(eventData.start)}>
+				<div className="bottom-buttons">
+				<button className="modal-button delete-button" onClick={() => handleDelete(eventData.start)}>
 					Delete Event
 				</button>
-				<UpdateEvent eventStart={eventData.start} eventEnd={eventData.end} eventTitle={eventData.title}/>
+				<UpdateEvent eventStart={eventData.start} eventEnd={eventData.end} eventTitle={eventData.title} modalClose={modalClose}/>
+				</div>
 			</Modal>
 		</div>
 	)

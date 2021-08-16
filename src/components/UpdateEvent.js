@@ -11,10 +11,11 @@ import { customStyles } from "../styles/modalStyles"
 
 Modal.setAppElement("#root")
 
-function UpdateEvent({ eventStart, eventEnd, eventTitle}) {
+function UpdateEvent({ eventStart, eventEnd, eventTitle, modalClose}) {
 	const [ modalIsOpen, setIsOpen ] = useState(false)
 	const [ updateEvent, setUpdateEvent ] = useState({ title: "", start: "", end: "" })
 	const [ takenDays, setTakenDays ] = useState(null)
+	const [ maxDate, setMaxDate ] = useState(null)
 
 	useEffect(
 		() => {
@@ -37,25 +38,27 @@ function UpdateEvent({ eventStart, eventEnd, eventTitle}) {
 		})
 	}, [])
 
+	useEffect(
+		() => {
+			if (takenDays) {
+				const getDatesAfterStart = takenDays.filter((date) => date > updateEvent.start)
+
+				const sortedDates = getDatesAfterStart.sort((a, b) => a - b)
+
+				setMaxDate(sortedDates[0])
+			}
+		},
+		[ updateEvent, takenDays ]
+	)
+
 	function openModal() {
 		setIsOpen(true)
 	}
 
-	function modalClose() {
+	function closeModal() {
 		setIsOpen(false)
-		// closeModal()
 	}
 
-	// function handleAddEvent() {
-	// 	const event = {
-	// 		title: updateEvent.title,
-	// 		start: updateEvent.start.toString(),
-	// 		end: updateEvent.end.toString()
-	// 	}
-	// 	eventsRef.push(event)
-	// 	setNewEvent({ title: "", start: "", end: "" })
-	// 	setIsOpen(false)
-	// }
 	
 	function handleUpdate() {
 		const event = {
@@ -74,8 +77,25 @@ function UpdateEvent({ eventStart, eventEnd, eventTitle}) {
 			})
 			
 		})
+		closeModal()
 		modalClose()
 	}
+
+	function verifyDates() {
+		if (!updateEvent.start || !updateEvent.end || !updateEvent.title) {
+			return true
+		}
+		if (updateEvent.start > updateEvent.end) {
+			return true
+		}
+
+		const getDatesAfterStart = takenDays.filter((date) => date > updateEvent.start)
+
+		if (updateEvent.end > getDatesAfterStart[0]) {
+			return true
+		}
+	}
+
 
 	return (
 		<div>
@@ -83,7 +103,7 @@ function UpdateEvent({ eventStart, eventEnd, eventTitle}) {
 					Update Event
 				</button>
 
-			<Modal isOpen={modalIsOpen} onRequestClose={modalClose} style={customStyles} contentLabel="Events Modal">
+			<Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles} contentLabel="Events Modal">
 				<h2 className="add-event-title">Update Event</h2>
 				<div className="event-data">
 					{eventStart ? (
@@ -109,11 +129,15 @@ function UpdateEvent({ eventStart, eventEnd, eventTitle}) {
 						dateFormat="yyyy, MM, dd"
 						onChange={(end) => setUpdateEvent({ ...updateEvent, end })}
 						excludeDates={takenDays}
+						maxDate={maxDate}
 						/>
 					</div>
-					<button className="modal-button" onClick={() => handleUpdate()}>
+					<div className="bottom-buttons">
+
+					<button className="modal-button " onClick={() => handleUpdate()} disabled={verifyDates()}>
 				Update Event	
 				</button>
+					</div>
 					</>
 					): null}
 				</div>

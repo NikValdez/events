@@ -14,6 +14,7 @@ function AddEvent() {
 	const [ newEvent, setNewEvent ] = useState({ title: "", start: "", end: "" })
 	const [ takenDays, setTakenDays ] = useState(null)
 	const [ modalIsOpen, setIsOpen ] = useState(false)
+	const [ maxDate, setMaxDate ] = useState(null)
 
 	useEffect(() => {
 		const response = eventsRef
@@ -28,6 +29,19 @@ function AddEvent() {
 			})
 		}
 	}, [])
+
+	useEffect(
+		() => {
+			if (takenDays) {
+				const getDatesAfterStart = takenDays.filter((date) => date > newEvent.start)
+
+				const sortedDates = getDatesAfterStart.sort((a, b) => a - b)
+
+				setMaxDate(sortedDates[0])
+			}
+		},
+		[ newEvent, takenDays ]
+	)
 
 	function openModal() {
 		setIsOpen(true)
@@ -57,7 +71,9 @@ function AddEvent() {
 
 		const getDatesAfterStart = takenDays.filter((date) => date > newEvent.start)
 
-		if (newEvent.end > getDatesAfterStart[0]) {
+		const sortedDates = getDatesAfterStart.sort((a, b) => b.date - a.date)
+
+		if (newEvent.end > sortedDates[0]) {
 			return true
 		}
 	}
@@ -89,6 +105,7 @@ function AddEvent() {
 						dateFormat="yyyy, MM, dd"
 						onChange={(end) => setNewEvent({ ...newEvent, end })}
 						excludeDates={takenDays}
+						maxDate={maxDate}
 					/>
 					<button className="modal-button" onClick={handleAddEvent} disabled={verifyDates()}>
 						Add Event
